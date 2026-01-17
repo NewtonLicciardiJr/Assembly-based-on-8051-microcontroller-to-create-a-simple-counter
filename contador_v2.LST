@@ -1,0 +1,319 @@
+8051 Assembler           Version 1.00   10/15/124 21:06:26    Page 1
+D:\ONEDRIVE_Newton\OneDrive\MACKEN~1-NoteDellANLJ-11025\Disciplinas Moodle e Horarios - Mack\Prof Newton\ARQUITETURA de computadores - Comp\LAB\Experimentos Resolvidos com Códigos\7.1 Contador ASM 2024\contador_v2.A51
+
+
+
+    1 0000              ; 
+    2 0000              ; Exemplo de programa em Assembly do 8051
+    3 0000              ; 
+    4 0000              ; Este programa propoe efetuar a CONTAGEM de valores decimais e apresenta no Display 
+    5 0000              ; 3 subrotinas (fun??es) foram criadas
+    6 0000              ;    a que efetua um delay de tempo
+    7 0000              ;    a que acende o display menos significativo
+    8 0000              ;    a que acendo o dsiplay mais significativo
+    9 0000              ;    
+   10 0000              ;    o ajuste BCD do acumulador e utilizado entao ==> instru??o DA A - o que ela faz?
+   11 0000              ;       repare que para o incremento no acumulador e utilizado o comando ADD e nao INC
+   12 0000              ;             qual a raz?o? O comando ADD leva inclusive mais tempo para ser processado ....
+   13 0000              ;
+   14 0000              ;    a pilha e usada para salvar enderecos de retorno de subrotina
+   15 0000              ;    
+   16 0000              ;    repare que o programa esta pouco otimizado - ha muita repeticao de codigo!!
+   17 0000              ;       e proposital!!
+   18 0000              ;       voce seria capaz de otimizar o mesmo? Pense a respeito!!
+   19 0000              ;
+   20 0000              ;   produzido por Prof. Newton Licciardi
+   21 0000              ;
+   22 0000              ;   fev/2018
+   23 0000              ;
+   24 0000              ;   contato: newton.licciardijr@gmail.com
+   25 0000              ;
+   26 0000              
+   27 0000              
+   28 0000                      org      000h            ;inicio do codigo assembly em 000h
+   29 0000 7400                 mov      a,     #0h      ;inicia o acumulador do kit com 0h
+   30 0002              inicio:    
+   31 0002 2401                 add      a,     #01h     ;incrementa o acumulador
+   32 0004 D4                   da       a               ;faz o ajuste BCD do valor no acumulador
+   33 0005              
+   34 0005 C290                 clr     p1.0             ;liga o buzzer
+   35 0007 117E                 acall   delay            ; chama rotina de delay
+   36 0009 D290                 setb    p1.0             ;desliga o buzzer
+   37 000B              
+   38 000B 118E                 acall    dmenor          ; chama subrotina para acender digito menos significativo
+   39 000D 117E                 acall    delay           ; propoe um delay para persistencia da visao
+   40 000F 11F7                 acall    dispmaior       ; idem para display mais significativo 
+   41 0011 117E                 acall    delay           ; 
+   42 0013              
+   43 0013 118E                 acall    dmenor          ; chama subrotina para acender digito menos significativo
+   44 0015 117E                 acall    delay           ; propoe um delay para persistencia da visao
+   45 0017 11F7                 acall    dispmaior       ; idem para display mais significativo 
+   46 0019 117E                 acall    delay           ; 
+   47 001B              
+   48 001B 118E                 acall    dmenor          ; chama subrotina para acender digito menos significativo
+   49 001D 117E                 acall    delay           ; propoe um delay para persistencia da visao
+   50 001F 11F7                 acall    dispmaior       ; idem para display mais significativo 
+   51 0021 117E                 acall    delay           ; 
+   52 0023              
+   53 0023 118E                 acall    dmenor          ; chama subrotina para acender digito menos significativo
+   54 0025 117E                 acall    delay           ; propoe um delay para persistencia da visao
+   55 0027 11F7                 acall    dispmaior       ; idem para display mais significativo 
+   56 0029 117E                 acall    delay           ; 
+   57 002B              
+8051 Assembler           Version 1.00   10/15/124 21:06:26    Page 2
+D:\ONEDRIVE_Newton\OneDrive\MACKEN~1-NoteDellANLJ-11025\Disciplinas Moodle e Horarios - Mack\Prof Newton\ARQUITETURA de computadores - Comp\LAB\Experimentos Resolvidos com Códigos\7.1 Contador ASM 2024\contador_v2.A51
+
+
+
+   58 002B 118E                 acall    dmenor          ; chama subrotina para acender digito menos significativo
+   59 002D 117E                 acall    delay           ; propoe um delay para persistencia da visao
+   60 002F 11F7                 acall    dispmaior       ; idem para display mais significativo 
+   61 0031 117E                 acall    delay           ; 
+   62 0033              
+   63 0033 118E                 acall    dmenor          ; chama subrotina para acender digito menos significativo
+   64 0035 117E                 acall    delay           ; propoe um delay para persistencia da visao
+   65 0037 11F7                 acall    dispmaior       ; idem para display mais significativo 
+   66 0039 117E                 acall    delay           ; 
+   67 003B              
+   68 003B 118E                 acall    dmenor          ; chama subrotina para acender digito menos significativo
+   69 003D 117E                 acall    delay           ; propoe um delay para persistencia da visao
+   70 003F 11F7                 acall    dispmaior       ; idem para display mais significativo 
+   71 0041 117E                 acall    delay           ; 
+   72 0043              
+   73 0043 118E                 acall    dmenor          ; chama subrotina para acender digito menos significativo
+   74 0045 117E                 acall    delay           ; propoe um delay para persistencia da visao
+   75 0047 11F7                 acall    dispmaior       ; idem para display mais significativo 
+   76 0049 117E                 acall    delay           ; 
+   77 004B              
+   78 004B 118E                 acall    dmenor          ; chama subrotina para acender digito menos significativo
+   79 004D 117E                 acall    delay           ; propoe um delay para persistencia da visao
+   80 004F 11F7                 acall    dispmaior       ; idem para display mais significativo 
+   81 0051 117E                 acall    delay           ; 
+   82 0053              
+   83 0053 118E                 acall    dmenor          ; chama subrotina para acender digito menos significativo
+   84 0055 117E                 acall    delay           ; propoe um delay para persistencia da visao
+   85 0057 11F7                 acall    dispmaior       ; idem para display mais significativo 
+   86 0059 117E                 acall    delay           ; 
+   87 005B              
+   88 005B 118E                 acall    dmenor          ; chama subrotina para acender digito menos significativo
+   89 005D 117E                 acall    delay           ; propoe um delay para persistencia da visao
+   90 005F 11F7                 acall    dispmaior       ; idem para display mais significativo 
+   91 0061 117E                 acall    delay           ; 
+   92 0063              
+   93 0063 118E                 acall    dmenor          ; chama subrotina para acender digito menos significativo
+   94 0065 117E                 acall    delay           ; propoe um delay para persistencia da visao
+   95 0067 11F7                 acall    dispmaior       ; idem para display mais significativo 
+   96 0069 117E                 acall    delay           ; 
+   97 006B              
+   98 006B 118E                 acall    dmenor          ; chama subrotina para acender digito menos significativo
+   99 006D 117E                 acall    delay           ; propoe um delay para persistencia da visao
+  100 006F 11F7                 acall    dispmaior       ; idem para display mais significativo 
+  101 0071 117E                 acall    delay           ; 
+  102 0073              
+  103 0073 118E                 acall    dmenor          ; chama subrotina para acender digito menos significativo
+  104 0075 117E                 acall    delay           ; propoe um delay para persistencia da visao
+  105 0077 11F7                 acall    dispmaior       ; idem para display mais significativo 
+  106 0079 117E                 acall    delay           ; 
+  107 007B              
+  108 007B              
+  109 007B                       
+  110 007B 020002               jmp     inicio          ; retorna ao inicio
+  111 007E              
+  112 007E              delay:                          ; rotina de loop temporal
+  113 007E              
+  114 007E              ; subrotina - delay - que gera uma temporiza??o 
+8051 Assembler           Version 1.00   10/15/124 21:06:26    Page 3
+D:\ONEDRIVE_Newton\OneDrive\MACKEN~1-NoteDellANLJ-11025\Disciplinas Moodle e Horarios - Mack\Prof Newton\ARQUITETURA de computadores - Comp\LAB\Experimentos Resolvidos com Códigos\7.1 Contador ASM 2024\contador_v2.A51
+
+
+
+  115 007E              ; ajustando e decrementando o conteudo de r2, r1 e r0 
+  116 007E              ; a 12 Mhz de cristal ==> 1 Mhz cilo de maquina
+  117 007E              ;   laco interno = 3 ciclos ==> 3 us
+  118 007E              ;   ex. r1=r2=31 ==> 3us x 900 ~ 0,2 ms
+  119 007E              ;   r0 ajusta o timing deseja ==> ex. r0=1 ==> 1 x 0,2 = 0,2 ms
+  120 007E              
+  121 007E 7801                 mov     r0,     #01h
+  122 0080              loop0:
+  123 0080 793F                 mov     r1,     #063d
+  124 0082              loop1:
+  125 0082 7A3F                 mov     r2,     #063d
+  126 0084              loop2:
+  127 0084 00                   nop                     ; esta instru??o leva 1 ciclo de maquina - 1us
+  128 0085 DAFD                 djnz    r2,     loop2   ; esta instru??o leva 2 ciclos de maquina - 2 us
+  129 0087                                              ; esta instru??o decrementa r2, compara se ele ? zero. 
+  130 0087                                              ;  se nao for retorna a loop2
+  131 0087                                              ;  djnz ? ideal para controle de loops
+  132 0087 00                   nop
+  133 0088 D9F8                 djnz    r1,     loop1
+  134 008A 00                   nop
+  135 008B D8F3                 djnz    r0,     loop0
+  136 008D 22                   ret        
+  137 008E              
+  138 008E              
+  139 008E              dmenor:
+  140 008E              
+  141 008E              ;        Esta rotina testa os 4 bits menos significativos do acumulador 
+  142 008E              ;          comparando com valores de 0 a 9 
+  143 008E              ;          e acende o display menos significativo com os segmentos correspondentes 
+  144 008E              
+  145 008E FB                   mov      r3,    a      ; armazena conteudo original do acumulador em r3
+  146 008F 540F                 anl      a,     #015d  ; faz um and logico para obter os 4 bits menos significativos do acumulador
+  147 0091 B40007               cjne     a,#00d,cont1  ; desvia para cont1 se a for diferente de 0;
+  148 0094 758040               mov      p0,    #064d  ; prepara acendimento dos segmentos correspondentes a 0 no display
+  149 0097 C293                 clr      p1.3          ; acende display menos significativo com valor de p0
+  150 0099 D292                 setb     p1.2          ; apaga display mais significativo
+  151 009B              cont1:
+  152 009B B40107               cjne     a,#01d,cont2  ; desvia para cont2 se a for diferente de 1;
+  153 009E 758079               mov      p0,    #121d  ; prepara acendimento dos segmentos correspondentes a 1 no display
+  154 00A1 C293                 clr      p1.3          ; acende display menos significativo com valor de p0
+  155 00A3 D292                 setb     p1.2          ; apaga display mais significativo
+  156 00A5              cont2:
+  157 00A5 B40207               cjne     a,#02d,cont3  ; desvia para cont3 se a for diferente de 2;
+  158 00A8 758024               mov      p0,    #036d  ; prepara acendimento dos segmentos correspondentes a 2 no display
+  159 00AB C293                 clr      p1.3          ; acende display menos significativo com valor de p0
+  160 00AD D292                 setb     p1.2          ; apaga display mais significativo
+  161 00AF              cont3:
+  162 00AF B40307               cjne     a,#03d,cont4  ; desvia para cont4 se a for diferente de 3;
+  163 00B2 758030               mov      p0,    #048d  ; prepara acendimento dos segmentos correspondentes a 3 no display
+  164 00B5 C293                 clr      p1.3          ; acende display menos significativo com valor de p0
+  165 00B7 D292                 setb     p1.2          ; apaga display mais significativo
+  166 00B9              cont4:
+  167 00B9 B40407               cjne     a,#04d,cont5  ; desvia para cont5 se a for diferente de 4;
+  168 00BC 758019               mov      p0,    #025d  ; prepara acendimento dos segmentos correspondentes a 4 no display
+  169 00BF C293                 clr      p1.3          ; acende display menos significativo com valor de p0
+  170 00C1 D292                 setb     p1.2          ; apaga display mais significativo
+  171 00C3              cont5:
+8051 Assembler           Version 1.00   10/15/124 21:06:26    Page 4
+D:\ONEDRIVE_Newton\OneDrive\MACKEN~1-NoteDellANLJ-11025\Disciplinas Moodle e Horarios - Mack\Prof Newton\ARQUITETURA de computadores - Comp\LAB\Experimentos Resolvidos com Códigos\7.1 Contador ASM 2024\contador_v2.A51
+
+
+
+  172 00C3 B40507               cjne     a,#05d, cont6 ; desvia para cont6 se a for diferente de 5;
+  173 00C6 758012               mov      p0, #018d     ; prepara acendimento dos segmentos correspondentes a 1 no display
+  174 00C9 C293                 clr      p1.3          ; acende display menos significativo com valor de p0
+  175 00CB D292                 setb     p1.2          ; apaga display mais significativo
+  176 00CD              cont6:
+  177 00CD B40607               cjne     a,#06d, cont7 ; desvia para cont7 se a for diferente de 6;
+  178 00D0 758002               mov      p0, #02d      ; prepara acendimento dos segmentos correspondentes a 1 no display
+  179 00D3 C293                 clr      p1.3          ; acende display menos significativo com valor de p0
+  180 00D5 D292                 setb     p1.2          ; apaga display mais significativo
+  181 00D7              cont7:
+  182 00D7 B40707               cjne     a,#07d,cont8  ; desvia para cont8 se a for diferente de 7;
+  183 00DA 758078               mov      p0,#0120d     ; prepara acendimento dos segmentos correspondentes a 1 no display
+  184 00DD C293                 clr      p1.3          ; acende display menos significativo com valor de p0
+  185 00DF D292                 setb     p1.2          ; apaga display mais significativo
+  186 00E1              cont8:
+  187 00E1 B40807               cjne     a,#08d,cont9  ; desvia para cont9 se a for diferente de 8;
+  188 00E4 758000               mov      p0, #00d      ; prepara acendimento dos segmentos correspondentes a 1 no display
+  189 00E7 C293                 clr      p1.3          ; acende display menos significativo com valor de p0
+  190 00E9 D292                 setb     p1.2          ; apaga display mais significativo
+  191 00EB              cont9:
+  192 00EB B40907               cjne     a,#09d,conte  ; desvia para conte se a for diferente de 9;
+  193 00EE 758010               mov      p0, #016d     ; prepara acendimento dos segmentos correspondentes a 1 no display
+  194 00F1 C293                 clr      p1.3          ; acende display menos significativo com valor de p0
+  195 00F3 D292                 setb     p1.2          ; apaga display mais significativo
+  196 00F5              conte:
+  197 00F5 EB                   mov      a,     r3     ; retorna conteudo original do acumulador armazenado em r3
+  198 00F6 22                   ret                    ; final da subrotina do display
+  199 00F7              
+  200 00F7              
+  201 00F7              dispmaior:
+  202 00F7              
+  203 00F7              ;        Esta rotina testa os 4 bits mais significativos do acumulador 
+  204 00F7              ;          comparando com valores de 0 a 9 
+  205 00F7              ;          e acende o display mais significativo com os segmentos correspondentes 
+  206 00F7              
+  207 00F7 FB                   mov      r3,    a      ; armazena conteudo original do acumulador em r3
+  208 00F8 54F0                 anl      a,  #0240d    ; faz um and logico para obter os 4 bits mais significativos do acumulador
+  209 00FA C4                   swap     a             ; troca o nibble mais significativo com o menos do acumulador
+  210 00FB B40007               cjne     a,#00d,cont11 ; desvia para cont1 se a for diferente de 0;
+  211 00FE 758040               mov      p0,    #064d  ; prepara acendimento dos segmentos correspondentes a 0 no display
+  212 0101 C292                 clr      p1.2          ; acende display mais significativo com valor de p0
+  213 0103 D293                 setb     p1.3          ; apaga display menos significativo
+  214 0105              cont11:
+  215 0105 B40107               cjne     a,#01d,cont12 ; desvia para cont2 se a for diferente de 1;
+  216 0108 758079               mov      p0,#0121d     ; prepara acendimento dos segmentos correspondentes a 1 no display
+  217 010B C292                 clr      p1.2          ; acende display mais significativo com valor de p0
+  218 010D D293                 setb     p1.3          ; apaga display menos significativo
+  219 010F              cont12:
+  220 010F B40207               cjne     a,#02d,cont13 ; desvia para cont3 se a for diferente de 2;
+  221 0112 758024               mov      p0,    #036d  ; prepara acendimento dos segmentos correspondentes a 2 no display
+  222 0115 C292                 clr      p1.2          ; acende display mais significativo com valor de p0
+  223 0117 D293                 setb     p1.3          ; apaga display menos significativo
+  224 0119              cont13:
+  225 0119 B40307               cjne     a,#03d,cont14 ; desvia para cont4 se a for diferente de 3;
+  226 011C 758030               mov      p0,    #048d  ; prepara acendimento dos segmentos correspondentes a 3 no display
+  227 011F C292                 clr      p1.2          ; acende display mais significativo com valor de p0
+  228 0121 D293                 setb     p1.3          ; apaga display menos significativo
+8051 Assembler           Version 1.00   10/15/124 21:06:26    Page 5
+D:\ONEDRIVE_Newton\OneDrive\MACKEN~1-NoteDellANLJ-11025\Disciplinas Moodle e Horarios - Mack\Prof Newton\ARQUITETURA de computadores - Comp\LAB\Experimentos Resolvidos com Códigos\7.1 Contador ASM 2024\contador_v2.A51
+
+
+
+  229 0123              cont14:
+  230 0123 B40407               cjne     a,#04d,cont15 ; desvia para cont5 se a for diferente de 4;
+  231 0126 758019               mov      p0,    #025d  ; prepara acendimento dos segmentos correspondentes a 4 no display
+  232 0129 C292                 clr      p1.2          ; acende display mais significativo com valor de p0
+  233 012B D293                 setb     p1.3          ; apaga display menos significativo
+  234 012D              cont15:
+  235 012D B40507               cjne     a,#05d,cont16 ; desvia para cont6 se a for diferente de 5;
+  236 0130 758012               mov      p0,    #018d  ; prepara acendimento dos segmentos correspondentes a 1 no display
+  237 0133 C292                 clr      p1.2          ; acende display mais significativo com valor de p0
+  238 0135 D293                 setb     p1.3          ; apaga display menos significativo
+  239 0137              cont16:
+  240 0137 B40607               cjne     a,#06d,cont17 ; desvia para cont7 se a for diferente de 6;
+  241 013A 758002               mov      p0,    #02d   ; prepara acendimento dos segmentos correspondentes a 1 no display
+  242 013D C292                 clr      p1.2          ; acende display mais significativo com valor de p0
+  243 013F D293                 setb     p1.3          ; apaga display menos significativo
+  244 0141              cont17:
+  245 0141 B40707               cjne     a,#07d,cont18  ; desvia para cont8 se a for diferente de 7;
+  246 0144 758078               mov      p0,    #0120d  ; prepara acendimento dos segmentos correspondentes a 1 no display
+  247 0147 C292                 clr      p1.2           ; acende display mais significativo com valor de p0
+  248 0149 D293                 setb     p1.3           ; apaga display menos significativo
+  249 014B              cont18:
+  250 014B B40807               cjne     a,#08d,cont19  ; desvia para cont9 se a for diferente de 8;
+  251 014E 758000               mov      p0,    #00d    ; prepara acendimento dos segmentos correspondentes a 1 no display
+  252 0151 C292                 clr      p1.2           ; acende display mais significativo com valor de p0
+  253 0153 D293                 setb     p1.3           ; apaga display menos significativo
+  254 0155              cont19:
+  255 0155 B40907               cjne     a,#09d,cont1e  ; desvia para conte se a for diferente de 9;
+  256 0158 758010               mov      p0,    #016d   ; prepara acendimento dos segmentos correspondentes a 1 no display
+  257 015B C292                 clr      p1.2           ; acende display mais significativo com valor de p0
+  258 015D D293                 setb     p1.3           ; apaga display menos significativo
+  259 015F              cont1e:
+  260 015F EB                   mov      a,     r3      ; retorna conteudo original do acumulador armazenado em r3
+  261 0160 22                   ret                     ; final da subrotina do display
+  262 0161              
+  263 0161                      end                     ; termina programa em Assembly
+
+Defined Symbols:
+
+Defined Labels:
+  cont1                                     00009B  155
+  cont11                                    000105  261
+  cont12                                    00010F  271
+  cont13                                    000119  281
+  cont14                                    000123  291
+  cont15                                    00012D  301
+  cont16                                    000137  311
+  cont17                                    000141  321
+  cont18                                    00014B  331
+  cont19                                    000155  341
+  cont1e                                    00015F  351
+  cont2                                     0000A5  165
+  cont3                                     0000AF  175
+  cont4                                     0000B9  185
+  cont5                                     0000C3  195
+  cont6                                     0000CD  205
+  cont7                                     0000D7  215
+  cont8                                     0000E1  225
+  cont9                                     0000EB  235
+  conte                                     0000F5  245
+  delay                                     00007E  126
+  dispmaior                                 0000F7  247
+  dmenor                                    00008E  142
+  inicio                                    000002  2
+  loop0                                     000080  128
+  loop1                                     000082  130
+  loop2                                     000084  132
